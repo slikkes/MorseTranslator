@@ -5,9 +5,9 @@ import java.util.regex.*;
 
 public class MorseTranslator {
 	
-	protected static Type type;
 	protected static String input;
 	protected static String translation;
+	protected static TypeCheckerService typeChecker;
 		
 	public static void main(String[] args) {
 		
@@ -24,24 +24,17 @@ public class MorseTranslator {
 		Scanner scanner = new Scanner(System.in);
 		
 		System.out.println("Tell me what to translate!");
-		String text = scanner.nextLine();
-		getType(text);
 		
-		input = text;
+		input = scanner.nextLine();
+		typeChecker = new TypeCheckerService(input);
 		
 		scanner.close();
-	}
-	
-	private static void getType(String text) {
-				
-		TypeCheckerService service = new TypeCheckerService(text);
-		type = service.getType();
 	}
 	
 	
 	private static void translate() {
 		
-		Translator translator = new Translator(type, input);
+		Translator translator = new Translator(typeChecker.getType(), input);
 		
 		translation = translator.getTranslation();
 	}
