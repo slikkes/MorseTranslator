@@ -7,12 +7,12 @@ import java.util.Map;
 
 public class Translator {
 	
-	protected String type;
+	protected Type type;
 	protected String text;
 	protected Map<String, String> dictionary ;
 
 	
-	public Translator(String type, String text) {
+	public Translator(Type type, String text) {
 		this.type = type;
 		this.text = text;
 	}
@@ -20,8 +20,7 @@ public class Translator {
 	public String getTranslation() {
 		
 		this.initDictionary();
-		
-		if(type == "abc") {
+		if(type.equals(Type.MORSE)) {
 			return this.getAbcFromMorse();
 		}
 		
@@ -33,7 +32,7 @@ public class Translator {
 		List<String> keys;
 		List<String> values;
 		
-		if(type == "abc") {
+		if(type.equals(Type.ABC)) {
 			keys = abc;
 			values = morse;
 		}else {
@@ -51,7 +50,7 @@ public class Translator {
 		
 	}
 	
-	private String getAbcFromMorse() {
+	private String getMorseFromAbc() {
 
 		String translation  = "";
 		for(char character : text.toCharArray()) {
@@ -66,9 +65,20 @@ public class Translator {
 	}
 	
 	
-	private String getMorseFromAbc() {
+	private String getAbcFromMorse() {
 		
-		String translation = this.text;
+		String translation  = "";
+		String key = "";
+		for(char character : text.toCharArray()) {
+			
+			if(character == ' ') {
+				translation += dictionary.get(key);
+				key = "";
+			}else {
+				key += character;
+			}
+
+		}
 		
 		return translation;
 	}
@@ -109,7 +119,8 @@ public class Translator {
 			"6",
 			"7",
 			"8",
-			"9"
+			"9",
+			" "
 );
 	
 	protected List<String> morse = Arrays.asList(
@@ -148,7 +159,8 @@ public class Translator {
 			"-....",
 			"--...",
 			"---..",
-			"----."
+			"----.",
+			"/"
 	);
 
 	

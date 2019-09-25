@@ -5,7 +5,7 @@ import java.util.regex.*;
 
 public class MorseTranslator {
 	
-	protected static String type;
+	protected static Type type;
 	protected static String input;
 	protected static String translation;
 		
@@ -33,13 +33,9 @@ public class MorseTranslator {
 	}
 	
 	private static void getType(String text) {
-		
-		if(Pattern.matches("[\\.-]+", text)) {
-			type = "morse";
-		} else {
-			type = "abc";
-		}
-		
+				
+		TypeCheckerService service = new TypeCheckerService(text);
+		type = service.getType();
 	}
 	
 	
